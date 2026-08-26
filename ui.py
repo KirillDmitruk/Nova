@@ -4,11 +4,10 @@ import time
 from rich.console import Console
 from rich.prompt import Prompt
 
-from config import MODEL_NAME
+from config import MODEL_NAME, VERSION
 
 console = Console()
 
-APP_VERSION = "0.1.0"
 LINE_WIDTH = 46
 
 
@@ -22,7 +21,7 @@ def startup() -> None:
     console.print("║             [white]Personal AI Assistant[/white]            ║")
     console.print("║                                              ║", style="cyan")
     console.print("╠══════════════════════════════════════════════╣", style="cyan")
-    console.print(f"║  Version │ [white]{APP_VERSION:<31}[/white]   ║")
+    console.print(f"║  Version │ [white]{VERSION:<31}[/white]   ║")
     console.print(f"║  Engine  │ [white]{MODEL_NAME:<31}[/white]   ║")
     console.print("║  Status  │ [bold green]● ONLINE[/bold green]                          ║")
     console.print("╚══════════════════════════════════════════════╝", style="cyan")

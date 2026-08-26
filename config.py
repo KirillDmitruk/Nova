@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-VERSION = "0.1"
+VERSION = "0.1.1"
 
 BASE_DIR = Path(__file__).resolve().parent
 PROMPT_PATH = BASE_DIR / "prompt" / "system.txt"
