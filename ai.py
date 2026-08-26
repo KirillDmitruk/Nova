@@ -31,24 +31,24 @@ def ask_genai(prompt):
         logger.exception('Unknown error Gemini')
         raise
 
+def chat_loop() -> None:
+    startup()
 
-startup()
+    while True:
+        user_input = ask_user()
 
-while True:
-    user_input = ask_user()
+        if not user_input:
+            continue
 
-    if not user_input:
-        continue
+        if user_input.lower() in {"exit", "quit", "bye"}:
+            shutdown()
+            break
 
-    if user_input.lower() in {"exit", "quit", "bye"}:
-        shutdown()
-        break
+        console.print()
 
-    console.print()
+        with thinking():
+            answer = ask_genai(user_input)
 
-    with thinking():
-        answer = ask_genai(user_input)
+        print_answer(answer)
 
-    print_answer(answer)
-
-    console.print()
+        console.print()
