@@ -13,18 +13,16 @@ from ui import (
 )
 from utils import load_system_prompt
 
-SYSTEM_PROMPT = load_system_prompt()
-
 
 class GeminiRequestError(RuntimeError):
     """Raised when Gemini cannot process a request."""
 
 
-def ask_genai(prompt: str, client: genai.Client) -> str:
+def ask_genai(prompt: str, client: genai.Client, system_prompt: str,) -> str:
     try:
         interaction = client.interactions.create(
             model=MODEL_NAME,
-            input=f"{SYSTEM_PROMPT}\n\nUser: {prompt}",
+            input=f"{system_prompt}\n\nUser: {prompt}",
         )
     except Exception as error:
         logger.exception("Gemini request failed")
@@ -48,6 +46,7 @@ def ask_genai(prompt: str, client: genai.Client) -> str:
 
 
 def chat_loop() -> None:
+    system_prompt = load_system_prompt()
     client = genai.Client(api_key=GEMINI_API_KEY)
 
     startup()
@@ -66,7 +65,7 @@ def chat_loop() -> None:
 
         try:
             with thinking():
-                answer = ask_genai(user_input, client)
+                answer = ask_genai(user_input, client, system_prompt)
         except GeminiRequestError as error:
             print_error(str(error))
             continue
