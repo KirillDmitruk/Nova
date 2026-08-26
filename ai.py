@@ -1,37 +1,36 @@
 from google import genai
 
-from config import MODEL_NAME, GEMINI_API_KEY
+from config import GEMINI_API_KEY, MODEL_NAME
 from logs.logging_config import logger
-from ui import startup, shutdown, thinking, ask_user, print_answer, console
+from ui import ask_user, console, print_answer, shutdown, startup, thinking
 from utils import load_system_prompt
 
-client = genai.Client(api_key=GEMINI_API_KEY)
 SYSTEM_PROMPT = load_system_prompt()
 
 
-def ask_genai(prompt):
+def ask_genai(prompt: str, client: genai.Client) -> str:
     try:
         interaction = client.interactions.create(
             model=MODEL_NAME,
-            input=f"{SYSTEM_PROMPT}\n\nUser: {prompt}"
+            input=f"{SYSTEM_PROMPT}\n\nUser: {prompt}",
         )
-        print('')
-        if hasattr(interaction, 'output_text'):
+
+        if hasattr(interaction, "output_text"):
             answer = interaction.output_text
         else:
             answer = "Error: an unexpected type of response was received"
+
         logger.info(answer)
         return answer
 
-    except FileNotFoundError:
-        logger.exception('System file not found')
+    except Exception:
+        logger.exception("Unknown Gemini error")
         raise
 
-    except Exception:
-        logger.exception('Unknown error Gemini')
-        raise
 
 def chat_loop() -> None:
+    client = genai.Client(api_key=GEMINI_API_KEY)
+
     startup()
 
     while True:
@@ -47,8 +46,7 @@ def chat_loop() -> None:
         console.print()
 
         with thinking():
-            answer = ask_genai(user_input)
+            answer = ask_genai(user_input, client)
 
         print_answer(answer)
-
         console.print()
