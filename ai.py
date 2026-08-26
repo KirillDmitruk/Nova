@@ -2,7 +2,7 @@ from google import genai
 
 from config import MODEL_NAME, GEMINI_API_KEY
 from logs.logging_config import logger
-from ui import startup, shutdown, thinking
+from ui import startup, shutdown, thinking, ask_user, print_answer, console
 from utils import load_system_prompt
 
 client = genai.Client(api_key=GEMINI_API_KEY)
@@ -13,7 +13,7 @@ def ask_genai(prompt):
     try:
         interaction = client.interactions.create(
             model=MODEL_NAME,
-            input=SYSTEM_PROMPT + prompt,
+            input=f"{SYSTEM_PROMPT}\n\nUser: {prompt}"
         )
         print('')
         if hasattr(interaction, 'output_text'):
@@ -32,20 +32,23 @@ def ask_genai(prompt):
         raise
 
 
-def chat_loop():
-    startup()
+startup()
 
-    while True:
-        user_input = input("🧑 You: ").strip()
+while True:
+    user_input = ask_user()
 
-        if not user_input:
-            continue
+    if not user_input:
+        continue
 
-        thinking()
+    if user_input.lower() in {"exit", "quit", "bye"}:
+        shutdown()
+        break
 
+    console.print()
+
+    with thinking():
         answer = ask_genai(user_input)
-        print(f"\n🤖 Nova: {answer}\n")
 
-        if user_input.lower() in {"exit", "quit", "bye"}:
-            shutdown()
-            break
+    print_answer(answer)
+
+    console.print()
