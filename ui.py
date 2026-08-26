@@ -71,6 +71,12 @@ def print_answer(answer):
     _typewriter(wrapped)
 
 
+def print_error(message: str) -> None:
+    console.print("[bold red]✗ Request failed[/bold red]")
+    console.print(message, style="red")
+    console.print()
+
+
 def _loading(text: str):
     with console.status(
             f"[cyan]{text}[/cyan]",
