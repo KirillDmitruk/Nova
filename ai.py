@@ -6,7 +6,6 @@ from ui import (
     ask_user,
     console,
     print_answer,
-    print_error,
     shutdown,
     startup,
     thinking,
@@ -14,35 +13,18 @@ from ui import (
 from utils import load_system_prompt
 
 
-class GeminiRequestError(RuntimeError):
-    """Raised when Gemini cannot process a request."""
-
-
 def ask_genai(prompt: str, client: genai.Client, system_prompt: str,) -> str:
-    try:
         interaction = client.interactions.create(
             model=MODEL_NAME,
             input=f"{system_prompt}\n\nUser: {prompt}",
         )
-    except Exception as error:
-        logger.exception("Gemini request failed")
 
-        raise GeminiRequestError(
-            "Could not get a response from Gemini. "
-            "Check the API key, model name, and internet connection."
-        ) from error
+        answer = getattr(interaction, "output_text", None)
 
-    answer = getattr(interaction, "output_text", None)
+        if not answer:
+            raise ValueError("Gemini returned an empty response")
 
-    if not answer:
-        logger.error("Gemini returned an empty response")
-
-        raise GeminiRequestError(
-            "Gemini returned an empty response. Please try again."
-        )
-
-    logger.info(answer)
-    return answer
+        return answer
 
 
 def chat_loop() -> None:
@@ -63,11 +45,8 @@ def chat_loop() -> None:
 
         console.print()
 
-        try:
-            with thinking():
-                answer = ask_genai(user_input, client, system_prompt)
-        except GeminiRequestError as error:
-            print_error(str(error))
+        with thinking():
+            answer = ask_genai(user_input, client, system_prompt)
             continue
 
         print_answer(answer)

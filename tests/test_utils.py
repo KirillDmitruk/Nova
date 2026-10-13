@@ -1,5 +1,4 @@
-import utils
-import pytest
+import utils, pytest
 
 
 def test_load_system_prompt(tmp_path, monkeypatch):
