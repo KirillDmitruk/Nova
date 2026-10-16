@@ -14,10 +14,6 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY", "").strip()
 MODEL_NAME = os.getenv("MODEL_NAME", "").strip()
 
 
-class ConfigurationError(RuntimeError):
-    """Raised when required application settings are missing."""
-
-
 def validate_config() -> None:
     required_variables = {
         "GEMINI_API_KEY": GEMINI_API_KEY,
@@ -32,8 +28,4 @@ def validate_config() -> None:
 
     if missing_variables:
         missing = ", ".join(missing_variables)
-
-        raise ConfigurationError(
-            f"Missing required environment variables: {missing}. "
-            "Copy .env.sample to .env and fill in the values."
-        )
+        raise ValueError(f"Missing required environment variables: {missing}")
