@@ -1,54 +1,48 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0">
-
-    <title>NOVA | AI Assistant</title>
-
-    <link rel="stylesheet" href="/static/style.css">
-    <script src="/static/app.js" defer></script>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#030c13" />
+  <title>NOVA / Interface</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <script defer src="/static/app.js"></script>
 </head>
-
 <body>
-    <div class="core">
-        <div class="ring ring-one"></div>
-        <div class="ring ring-two"></div>
-        <div class="ring ring-three"></div>
-        <div class="core-center"></div>
-    </div>
+<div class="noise" aria-hidden="true"></div>
+<div class="scanlines" aria-hidden="true"></div>
+<div class="app-shell" id="app-shell" data-state="idle">
+  <header class="topbar">
+    <div class="identity"><div class="mark"><span>✦</span></div><div><div class="brand">NOVA <span class="brand-muted">/ AI SYSTEM</span></div><div class="eyebrow">NEURAL OPERATIONS VIRTUAL ASSISTANT</div></div></div>
+    <div class="top-center"><span class="light"></span> SYSTEM ONLINE <span class="tiny-divider">/</span> <span id="clock">--:--:--</span></div>
+    <button class="header-button" id="reset-button" type="button" title="Начать новый чат">↺ <span>NEW SESSION</span></button>
+  </header>
+  <main class="workspace">
+    <aside class="rail rail-left" aria-label="Данные системы">
+      <div class="rail-heading"><span class="bar"></span> SYSTEM DIAGNOSTICS</div>
+      <section class="metric"><div class="metric-title">CORE STATUS <span>01 / 04</span></div><div class="metric-main" id="core-label">STANDBY</div><div class="metric-sub">VIRTUAL ASSISTANT READY</div><div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section>
+      <section class="metric"><div class="metric-title">LINK STATUS <span>02 / 04</span></div><div class="metric-main small" id="link-label">API CONNECTED</div><div class="wire"><span></span></div><div class="metric-sub">LOCAL INTERFACE / v0.2</div></section>
+      <section class="metric"><div class="metric-title">ENGINE <span>03 / 04</span></div><div class="metric-main small"> NOVA</div><div class="metric-sub">REMOTE INFERENCE PROVIDER</div></section>
+      <div class="left-footer"><span class="locator">◈</span><span>OPERATOR CONSOLE<br><strong>ACCESS GRANTED</strong></span></div>
+    </aside>
 
-    <main class="chat">
-        <header class="chat-header">
-            <div>
-                <h1>NOVA</h1>
-                <p>PERSONAL AI SYSTEM</p>
-            </div>
+    <section class="center-stage" aria-label="Ядро NOVA">
+      <div class="top-ruler"><span>SYS // 01.486</span><span>AI CORE VISUALIZATION</span><span>ACTIVE FEED</span></div>
+      <div class="reactor" aria-hidden="true"><div class="halo halo-outer"></div><div class="halo halo-middle"></div><div class="halo halo-inner"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="ticks"></div><div class="rotator rotator-a"></div><div class="rotator rotator-b"></div><div class="rotator rotator-c"></div><div class="center-disc"><div class="center-glow"></div><div class="center-mark">N</div></div><div class="reactor-cross cross-horizontal"></div><div class="reactor-cross cross-vertical"></div></div>
+      <div class="core-status"><span class="status-line"></span><span id="status-text" role="status" aria-live="polite">AWAITING INPUT</span><span class="status-line"></span></div>
+      <div class="center-note">NOVA CORE // INTERACTIVE NEURAL INTERFACE</div>
+      <div class="corner corner-tl"></div><div class="corner corner-tr"></div><div class="corner corner-bl"></div><div class="corner corner-br"></div>
+    </section>
 
-            <span class="status">● ONLINE</span>
-        </header>
-
-        <section id="messages" class="messages">
-            <div class="message assistant">
-                Systems online. How can I help you?
-            </div>
-        </section>
-
-        <form id="chat-form" class="chat-form">
-            <input
-                id="message-input"
-                type="text"
-                placeholder="Ask NOVA anything..."
-                autocomplete="off"
-                maxlength="10000"
-                required
-            >
-
-            <button type="submit" id="send-button">
-                SEND
-            </button>
-        </form>
-    </main>
+    <aside class="chat-panel" aria-label="Чат NOVA">
+      <div class="chat-heading"><div><div class="chat-kicker">SECURE COMMUNICATION CHANNEL</div><h1>DIRECT LINK <span class="channel-id">[01]</span></h1></div><span class="online-dot" title="Веб-интерфейс активен"></span></div>
+      <div class="chat-messages" id="messages" aria-live="polite" aria-label="Сообщения">
+        <div class="message nova-message"><span class="message-author">NOVA <span>· SYSTEM</span></span><div class="message-body">Все системы готовы. Чем могу помочь?</div></div>
+      </div>
+      <div class="input-area"><div class="input-label"><span>MESSAGE TRANSMISSION</span><span id="chars-left">0 / 10000</span></div><form id="chat-form"><textarea id="message-input" rows="1" maxlength="10000" placeholder="Введите запрос для NOVA..." aria-label="Сообщение для NOVA" required></textarea><button id="send-button" type="submit" aria-label="Отправить сообщение"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 14-7-4 14-3-7-7-0z"/><path d="m12 12 7-7"/></svg></button></form><div class="input-footer"><span>ENTER TO SEND <span class="bullet">·</span> SHIFT+ENTER FOR NEW LINE</span><span id="request-status">READY</span></div></div>
+    </aside>
+  </main>
+  <footer class="footer"><span>NOVA // RESEARCH & DEVELOPMENT</span><span>INTERFACE V2.0 <span class="footer-divider">//</span> LOCAL ENVIRONMENT</span><span>POWERED BY GEMINI</span></footer>
+</div>
 </body>
 </html>
