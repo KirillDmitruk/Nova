@@ -1,5 +1,6 @@
-from ai import chat_loop
+
 from config import validate_config
+from core.providers.gemini import chat_loop
 from ui import console
 
 
