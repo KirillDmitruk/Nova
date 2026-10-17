@@ -116,3 +116,61 @@ function refreshClock() {
 refreshClock();
 setInterval(refreshClock, 1000);
 updateInput();
+// NOVA SYSTEM BOOT
+
+function startBootSequence() {
+    const screen = document.getElementById("boot-screen");
+    const bar = document.getElementById("boot-progress-bar");
+    const percentage = document.getElementById("boot-percentage");
+    const status = document.getElementById("boot-status");
+
+    if (!screen || !bar || !percentage || !status) {
+        console.error("NOVA boot elements not found");
+        return;
+    }
+
+    const duration = 4500;
+    const start = performance.now();
+
+    function animate(now) {
+        const elapsed = now - start;
+        const progress = Math.min(
+            Math.floor((elapsed / duration) * 100),
+            100
+        );
+
+        bar.style.width = progress + "%";
+        percentage.textContent = progress + "%";
+
+        if (progress < 25) {
+            status.textContent = "INITIALIZING CORE...";
+        } else if (progress < 50) {
+            status.textContent = "CALIBRATING REACTOR...";
+        } else if (progress < 75) {
+            status.textContent = "LOADING INTERFACE...";
+        } else if (progress < 100) {
+            status.textContent = "ESTABLISHING CONNECTION...";
+        } else {
+            status.textContent = "SYSTEM ONLINE";
+        }
+
+        if (progress < 100) {
+            requestAnimationFrame(animate);
+        } else {
+            setTimeout(() => {
+                screen.classList.add("hidden");
+            }, 500);
+        }
+    }
+
+    requestAnimationFrame(animate);
+}
+
+if (document.readyState === "loading") {
+    document.addEventListener(
+        "DOMContentLoaded",
+        startBootSequence
+    );
+} else {
+    startBootSequence();
+}

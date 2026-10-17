@@ -9,6 +9,25 @@
   <script defer src="/static/app.js"></script>
 </head>
 <body>
+  <div id="boot-screen" class="boot-screen">
+    <div class="boot-content">
+        <div class="boot-reactor">
+            <div class="boot-ring boot-ring-1"></div>
+            <div class="boot-ring boot-ring-2"></div>
+            <div class="boot-ring boot-ring-3"></div>
+            <div class="boot-center">N</div>
+        </div>
+
+        <h1>NOVA SYSTEM</h1>
+        <p id="boot-status">INITIALIZING SYSTEM...</p>
+
+        <div class="boot-progress">
+            <div id="boot-progress-bar"></div>
+        </div>
+
+        <span id="boot-percentage">0%</span>
+    </div>
+</div>
 <div class="noise" aria-hidden="true"></div>
 <div class="scanlines" aria-hidden="true"></div>
 <div class="app-shell" id="app-shell" data-state="idle">
@@ -22,7 +41,7 @@
       <div class="rail-heading"><span class="bar"></span> SYSTEM DIAGNOSTICS</div>
       <section class="metric"><div class="metric-title">CORE STATUS <span>01 / 04</span></div><div class="metric-main" id="core-label">STANDBY</div><div class="metric-sub">VIRTUAL ASSISTANT READY</div><div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section>
       <section class="metric"><div class="metric-title">LINK STATUS <span>02 / 04</span></div><div class="metric-main small" id="link-label">API CONNECTED</div><div class="wire"><span></span></div><div class="metric-sub">LOCAL INTERFACE / v0.2</div></section>
-      <section class="metric"><div class="metric-title">ENGINE <span>03 / 04</span></div><div class="metric-main small"> NOVA</div><div class="metric-sub">REMOTE INFERENCE PROVIDER</div></section>
+      <section class="metric"><div class="metric-title">ENGINE <span>03 / 04</span></div><div class="metric-main small">NOVA</div><div class="metric-sub">REMOTE INFERENCE PROVIDER</div></section>
       <div class="left-footer"><span class="locator">◈</span><span>OPERATOR CONSOLE<br><strong>ACCESS GRANTED</strong></span></div>
     </aside>
 
@@ -42,7 +61,7 @@
       <div class="input-area"><div class="input-label"><span>MESSAGE TRANSMISSION</span><span id="chars-left">0 / 10000</span></div><form id="chat-form"><textarea id="message-input" rows="1" maxlength="10000" placeholder="Введите запрос для NOVA..." aria-label="Сообщение для NOVA" required></textarea><button id="send-button" type="submit" aria-label="Отправить сообщение"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 14-7-4 14-3-7-7-0z"/><path d="m12 12 7-7"/></svg></button></form><div class="input-footer"><span>ENTER TO SEND <span class="bullet">·</span> SHIFT+ENTER FOR NEW LINE</span><span id="request-status">READY</span></div></div>
     </aside>
   </main>
-  <footer class="footer"><span>NOVA // RESEARCH & DEVELOPMENT</span><span>INTERFACE V2.0 <span class="footer-divider">//</span> LOCAL ENVIRONMENT</span><span></span></footer>
+  <footer class="footer"><span>NOVA // RESEARCH & DEVELOPMENT</span><span>INTERFACE V2.0 <span class="footer-divider">//</span> LOCAL ENVIRONMENT</span><span>POWERED BY NOVA</span></footer>
 </div>
 </body>
 </html>
