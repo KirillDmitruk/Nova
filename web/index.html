@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>NOVA | AI Assistant</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/app.js" defer></script>
+</head>
+
+<body>
+    <div class="core">
+        <div class="ring ring-one"></div>
+        <div class="ring ring-two"></div>
+        <div class="ring ring-three"></div>
+        <div class="core-center"></div>
+    </div>
+
+    <main class="chat">
+        <header class="chat-header">
+            <div>
+                <h1>NOVA</h1>
+                <p>PERSONAL AI SYSTEM</p>
+            </div>
+
+            <span class="status">● ONLINE</span>
+        </header>
+
+        <section id="messages" class="messages">
+            <div class="message assistant">
+                Systems online. How can I help you?
+            </div>
+        </section>
+
+        <form id="chat-form" class="chat-form">
+            <input
+                id="message-input"
+                type="text"
+                placeholder="Ask NOVA anything..."
+                autocomplete="off"
+                maxlength="10000"
+                required
+            >
+
+            <button type="submit" id="send-button">
+                SEND
+            </button>
+        </form>
+    </main>
+</body>
+</html>

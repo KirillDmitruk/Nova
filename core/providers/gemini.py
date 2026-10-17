@@ -1,6 +1,7 @@
 from google import genai
 
 from config import GEMINI_API_KEY, MODEL_NAME
+from core.providers.base import LLMProvider
 from ui import (
     ask_user,
     console,
@@ -12,14 +13,13 @@ from ui import (
 from utils import load_system_prompt
 
 
-class LLMProvider:
-    """LLM класс-провайдер"""
-    def __init__(self, system_prompt: str):
-        self.system_prompt = system_prompt
+class GeminiRequestError(RuntimeError):
+    """Raised when Gemini request fails."""
 
 
 class GeminiProvider(LLMProvider):
     """Класс-провайдер для взаимодействия с Gemini API"""
+
     def __init__(
         self,
         api_key: str,
