@@ -1,7 +1,6 @@
 from google import genai
 
 from config import GEMINI_API_KEY, MODEL_NAME
-from logs.logging_config import logger
 from ui import (
     ask_user,
     console,
@@ -14,11 +13,13 @@ from utils import load_system_prompt
 
 
 class LLMProvider:
+    """LLM Класс"""
     def __init__(self, system_prompt: str):
         self.system_prompt = system_prompt
 
 
 class GeminiProvider(LLMProvider):
+    """Класс  Gemini"""
     def __init__(
         self,
         api_key: str,
