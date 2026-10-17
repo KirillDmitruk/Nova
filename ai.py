@@ -13,23 +13,40 @@ from ui import (
 from utils import load_system_prompt
 
 
-def ask_genai(prompt: str, client: genai.Client, system_prompt: str,) -> str:
-        interaction = client.interactions.create(
-            model=MODEL_NAME,
-            input=f"{system_prompt}\n\nUser: {prompt}",
+class LLMProvider:
+    def __init__(self, system_prompt: str):
+        self.system_prompt = system_prompt
+
+
+class GeminiProvider(LLMProvider):
+    def __init__(
+        self,
+        api_key: str,
+        model_name: str,
+        system_prompt: str,
+    ):
+        super().__init__(system_prompt)
+        self.client = genai.Client(api_key=api_key)
+        self.model_name = model_name
+
+    def ask(self, prompt: str) -> str:
+        interaction = self.client.interactions.create(
+            model=self.model_name,
+            input=f"{self.system_prompt}\n\nUser: {prompt}",
         )
 
         answer = getattr(interaction, "output_text", None)
 
         if not answer:
             raise ValueError("Gemini returned an empty response")
-
         return answer
 
 
 def chat_loop() -> None:
     system_prompt = load_system_prompt()
-    client = genai.Client(api_key=GEMINI_API_KEY)
+    provider = GeminiProvider(
+        api_key=GEMINI_API_KEY, model_name=MODEL_NAME, system_prompt=system_prompt
+    )
 
     startup()
 
@@ -46,8 +63,9 @@ def chat_loop() -> None:
         console.print()
 
         with thinking():
-            answer = ask_genai(user_input, client, system_prompt)
-            continue
+            answer = provider.ask(
+                prompt=user_input,
+            )
 
         print_answer(answer)
         console.print()
