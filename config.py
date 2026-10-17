@@ -15,6 +15,7 @@ MODEL_NAME = os.getenv("MODEL_NAME", "").strip()
 
 
 def validate_config() -> None:
+    """Проверяет наличие необходимых переменных окружения и выбрасывает исключение, если они отсутствуют."""
     required_variables = {
         "GEMINI_API_KEY": GEMINI_API_KEY,
         "MODEL_NAME": MODEL_NAME,

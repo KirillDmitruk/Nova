@@ -13,13 +13,13 @@ from utils import load_system_prompt
 
 
 class LLMProvider:
-    """LLM Класс"""
+    """LLM класс-провайдер"""
     def __init__(self, system_prompt: str):
         self.system_prompt = system_prompt
 
 
 class GeminiProvider(LLMProvider):
-    """Класс  Gemini"""
+    """Класс-провайдер для взаимодействия с Gemini API"""
     def __init__(
         self,
         api_key: str,
@@ -31,6 +31,7 @@ class GeminiProvider(LLMProvider):
         self.model_name = model_name
 
     def ask(self, prompt: str) -> str:
+        """Метод для отправки запроса к LLM и получения ответа."""
         interaction = self.client.interactions.create(
             model=self.model_name,
             input=f"{self.system_prompt}\n\nUser: {prompt}",
@@ -44,6 +45,7 @@ class GeminiProvider(LLMProvider):
 
 
 def chat_loop() -> None:
+    """Основной цикл чата, который обрабатывает ввод пользователя и взаимодействует с LLM-провайдером."""
     system_prompt = load_system_prompt()
     provider = GeminiProvider(
         api_key=GEMINI_API_KEY, model_name=MODEL_NAME, system_prompt=system_prompt
