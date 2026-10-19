@@ -108,6 +108,30 @@
 
     return data.projects;
   }
+  
+  function renderProjectVisual(container, project) {
+  container.replaceChildren();
+
+  // Буквенная иконка, если изображение не указано.
+  container.textContent = project.icon;
+
+  if (!project.image) return;
+
+  const image = document.createElement("img");
+  image.className = "project-image";
+  image.alt = "";
+  image.decoding = "async";
+
+  image.addEventListener("error", () => {
+    container.classList.remove("has-image");
+    container.textContent = project.icon;
+  });
+
+  container.classList.add("has-image");
+  container.replaceChildren(image);
+
+  image.src = project.image;
+}
 
   function createCard(project) {
     const button = document.createElement("button");
@@ -116,7 +140,7 @@
 
     const icon = document.createElement("span");
     icon.className = "project-card-icon";
-    icon.textContent = project.icon;
+    renderProjectVisual(icon, project);
     icon.setAttribute("aria-hidden", "true");
 
     const name = document.createElement("strong");
@@ -168,7 +192,7 @@
   function openProject(project, card) {
     selectedCard = card;
 
-    element("project-icon").textContent = project.icon;
+    renderProjectVisual(element("project-icon"), project);
     element("project-name").textContent = project.name;
     element("project-description").textContent = project.description;
     element("project-stage").textContent = project.stage;
