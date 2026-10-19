@@ -68,7 +68,7 @@
       <div class="left-footer"><span class="locator">◈</span><span>OPERATOR CONSOLE<br><strong>ACCESS GRANTED</strong></span></div>
     </aside>
 
-    <section class="center-stage" aria-label="Ядро NOVA">
+    <section class="center-stage" aria-label="Ядро NOавдалвдалвдалвдлаVA">
       <div class="top-ruler"><span>SYS // 01.486</span><span>AI CORE VISUALIZATION</span><span>ACTIVE FEED</span></div>
       <div class="reactor" aria-hidden="true"><div class="halo halo-outer"></div><div class="halo halo-middle"></div><div class="halo halo-inner"></div><div class="orbit orbit-one"></div><div class="orbit orbit-two"></div><div class="orbit orbit-three"></div><div class="ticks"></div><div class="rotator rotator-a"></div><div class="rotator rotator-b"></div><div class="rotator rotator-c"></div><div class="center-disc"><div class="center-glow"></div><div class="center-mark">N</div></div><div class="reactor-cross cross-horizontal"></div><div class="reactor-cross cross-vertical"></div></div>
       <div class="core-status"><span class="status-line"></span><span id="status-text" role="status" aria-live="polite">AWAITING INPUT</span><span class="status-line"></span></div>
@@ -113,7 +113,35 @@
     Повторить загрузку
   </button>
 
+  <div id="project-carousel" class="project-carousel">
+  <div class="project-carousel-controls" aria-label="Переключение проектов">
+    <button
+      id="project-prev"
+      class="carousel-arrow"
+      type="button"
+      aria-label="Предыдущий проект"
+      aria-controls="project-catalog"
+    >
+      ←
+    </button>
+
+    <span id="project-position" class="project-position" aria-live="polite">
+      01 / 02
+    </span>
+
+    <button
+      id="project-next"
+      class="carousel-arrow"
+      type="button"
+      aria-label="Следующий проект"
+      aria-controls="project-catalog"
+    >
+      →
+    </button>
+  </div>
+
   <div id="project-catalog" class="project-catalog"></div>
+</div>
 
   <article
     id="project-detail"

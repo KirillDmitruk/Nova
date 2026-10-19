@@ -14,6 +14,129 @@
   const detail = element("project-detail");
   const feedback = element("projects-feedback");
   const retryButton = element("projects-retry");
+  const carousel = document.getElementById("project-carousel");
+const carouselTrack = document.getElementById("project-catalog");
+const previousProject = document.getElementById("project-prev");
+const nextProject = document.getElementById("project-next");
+const projectPosition = document.getElementById("project-position");
+
+let centeredProjectIndex = 0;
+let carouselScrollFrame = null;
+
+function getProjectCards() {
+  return [...carouselTrack.querySelectorAll(".project-card")];
+}
+
+function updateCarouselControls() {
+  const cards = getProjectCards();
+
+  cards.forEach((card, index) => {
+    card.classList.toggle("is-centered", index === centeredProjectIndex);
+  });
+
+  previousProject.disabled =
+    cards.length === 0 || centeredProjectIndex === 0;
+
+  nextProject.disabled =
+    cards.length === 0 || centeredProjectIndex === cards.length - 1;
+
+  const current = cards.length ? centeredProjectIndex + 1 : 0;
+
+  projectPosition.textContent =
+    `${String(current).padStart(2, "0")} / ` +
+    `${String(cards.length).padStart(2, "0")}`;
+}
+
+function centerProject(index, animate = true) {
+  const cards = getProjectCards();
+
+  if (!cards.length) {
+    updateCarouselControls();
+    return;
+  }
+
+  centeredProjectIndex = Math.max(0, Math.min(index, cards.length - 1));
+
+  const card = cards[centeredProjectIndex];
+  const trackRect = carouselTrack.getBoundingClientRect();
+  const cardRect = card.getBoundingClientRect();
+
+  // На сколько центр карточки отличается от центра видимой области.
+  const offset =
+    cardRect.left + cardRect.width / 2 -
+    (trackRect.left + carouselTrack.clientWidth / 2);
+
+  const reducedMotion = window.matchMedia(
+    "(prefers-reduced-motion: reduce)"
+  ).matches;
+
+  carouselTrack.scrollTo({
+    left: carouselTrack.scrollLeft + offset,
+    behavior: animate && !reducedMotion ? "smooth" : "instant",
+  });
+
+  updateCarouselControls();
+}
+
+previousProject.addEventListener("click", () => {
+  centerProject(centeredProjectIndex - 1);
+});
+
+nextProject.addEventListener("click", () => {
+  centerProject(centeredProjectIndex + 1);
+});
+
+// Стрелки клавиатуры работают, когда фокус внутри карусели.
+carousel.addEventListener("keydown", (event) => {
+  if (event.key !== "ArrowLeft" && event.key !== "ArrowRight") return;
+
+  event.preventDefault();
+
+  centerProject(
+    centeredProjectIndex + (event.key === "ArrowRight" ? 1 : -1)
+  );
+});
+
+// Синхронизируем подсветку и счётчик при прокрутке пальцем или тачпадом.
+carouselTrack.addEventListener("scroll", () => {
+  if (carouselScrollFrame !== null) return;
+
+  carouselScrollFrame = requestAnimationFrame(() => {
+    carouselScrollFrame = null;
+
+    const cards = getProjectCards();
+    if (!cards.length) return;
+
+    const trackRect = carouselTrack.getBoundingClientRect();
+    const center = trackRect.left + carouselTrack.clientWidth / 2;
+
+    let nearestIndex = 0;
+    let nearestDistance = Infinity;
+
+    cards.forEach((card, index) => {
+      const rect = card.getBoundingClientRect();
+      const distance = Math.abs(rect.left + rect.width / 2 - center);
+
+      if (distance < nearestDistance) {
+        nearestDistance = distance;
+        nearestIndex = index;
+      }
+    });
+
+    centeredProjectIndex = nearestIndex;
+    updateCarouselControls();
+  });
+}, { passive: true });
+
+// Сохраняем центрирование при изменении ширины окна.
+const carouselResizeObserver = new ResizeObserver(() => {
+  if (carouselTrack.clientWidth > 0) {
+    centerProject(centeredProjectIndex, false);
+  }
+});
+
+carouselResizeObserver.observe(carouselTrack);
+  
 
   const statusLabels = {
     planned: "Запланировано",
@@ -204,7 +327,7 @@
 
     renderTasks(project.tasks);
 
-    catalog.hidden = true;
+    carousel.hidden = true;
     feedback.hidden = true;
     detail.hidden = false;
 
@@ -213,7 +336,11 @@
 
   function closeProject() {
     detail.hidden = true;
-    catalog.hidden = false;
+    carousel.hidden = false;
+
+requestAnimationFrame(() => {
+  centerProject(centeredProjectIndex, false);
+});
     feedback.hidden = false;
 
     selectedCard?.focus();
@@ -264,6 +391,12 @@
       clearTimeout(timeoutId);
       loading = false;
     }
+    centeredProjectIndex = 0;
+updateCarouselControls();
+
+requestAnimationFrame(() => {
+  centerProject(0, false);
+});
   }
 
   assistantButton.addEventListener("click", () => {

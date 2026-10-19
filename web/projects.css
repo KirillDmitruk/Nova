@@ -347,3 +347,545 @@
   border-radius: 12px;
   box-shadow: 0 0 35px #1688a222;
 }
+/* NOVA — holographic project workspace */
+
+.projects-workspace {
+  position: relative;
+  isolation: isolate;
+  max-width: none;
+  min-height: calc(100dvh - 190px);
+  overflow: hidden;
+  padding: 32px clamp(20px, 4vw, 70px) 60px;
+
+  background:
+    radial-gradient(
+      ellipse at 50% 65%,
+      rgba(0, 132, 220, 0.2),
+      transparent 60%
+    ),
+    linear-gradient(180deg, #05091b, #06172b);
+}
+
+/* Perspective floor */
+
+.projects-workspace::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  pointer-events: none;
+
+  width: 180%;
+  height: 850px;
+  left: -40%;
+  top: 160px;
+
+  background-image:
+    linear-gradient(
+      rgba(49, 181, 255, 0.16) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(49, 181, 255, 0.16) 1px,
+      transparent 1px
+    );
+
+  background-size: 70px 70px;
+
+  transform:
+    perspective(650px)
+    rotateX(65deg);
+
+  transform-origin: center top;
+
+  mask-image: linear-gradient(
+    transparent,
+    black 20%,
+    black 65%,
+    transparent
+  );
+}
+
+.projects-intro {
+  position: relative;
+  z-index: 1;
+}
+
+.projects-intro h1 {
+  color: #d6f7ff;
+  font-weight: 400;
+  letter-spacing: 2px;
+}
+
+.project-kicker {
+  color: #72dfff !important;
+  letter-spacing: 3px;
+}
+
+.source-badge {
+  background: rgba(9, 30, 57, 0.65);
+  border-color: rgba(91, 201, 255, 0.3);
+  color: #8cb9d0;
+}
+
+#projects-feedback {
+  position: relative;
+  z-index: 1;
+  color: #7ba2be;
+}
+
+/* Catalog stage */
+
+.project-catalog {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+
+  gap: 48px;
+  min-height: 480px;
+  margin: 30px auto 0;
+  padding: 15px 0 40px;
+}
+
+.project-card {
+  position: relative;
+  isolation: isolate;
+
+  width: min(100%, 430px);
+  min-height: 460px;
+  padding: 20px 24px 28px;
+
+  align-items: center;
+  gap: 12px;
+  text-align: center;
+
+  border: 1px solid transparent;
+  background: transparent;
+  box-shadow: none;
+
+  transition:
+    transform 0.3s ease,
+    background 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-7px);
+  border-color: transparent;
+  background: rgba(15, 58, 92, 0.12);
+}
+
+.project-card strong {
+  margin-top: 22px;
+  font-size: 27px;
+  letter-spacing: 4px;
+  color: #d9f8ff;
+  text-shadow: 0 0 18px rgba(94, 209, 255, 0.45);
+}
+
+.project-card > span:not(.project-card-icon) {
+  position: relative;
+  z-index: 2;
+}
+
+.project-card-action {
+  width: 100%;
+  margin-top: 10px;
+  padding-top: 16px;
+  border-color: rgba(97, 213, 255, 0.2);
+
+  color: #76ddff;
+  font-size: 11px;
+  letter-spacing: 1px;
+}
+
+/* Holographic visual */
+
+.project-card-icon,
+.project-card-icon.has-image {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  height: 280px;
+
+  display: grid;
+  place-items: center;
+
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+
+  color: #a4eaff;
+  font-size: 100px;
+}
+
+/* Platform beneath the helmet */
+
+.project-card-icon::before,
+.project-card-icon::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+
+  left: 50%;
+  bottom: -20px;
+
+  width: 94%;
+  height: 75px;
+
+  border-radius: 50%;
+  transform: translateX(-50%);
+}
+
+.project-card-icon::before {
+  border: 2px solid #a3edff;
+
+  background: radial-gradient(
+    ellipse,
+    rgba(40, 165, 255, 0.18),
+    transparent 70%
+  );
+
+  box-shadow:
+    0 0 12px #58cfff,
+    0 0 32px rgba(38, 157, 255, 0.55),
+    inset 0 0 20px rgba(71, 187, 255, 0.35);
+}
+
+.project-card-icon::after {
+  bottom: -31px;
+  width: 106%;
+  height: 97px;
+
+  border: 1px dashed rgba(129, 224, 255, 0.65);
+}
+
+/* Tint the existing image without changing the source file */
+
+.project-card-icon .project-image,
+.project-emblem .project-image {
+  position: relative;
+  z-index: 1;
+
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+
+  mix-blend-mode: screen;
+
+  filter:
+    grayscale(1)
+    sepia(1)
+    saturate(2.5)
+    hue-rotate(155deg)
+    brightness(0.9)
+    contrast(1.35);
+
+  mask-image: radial-gradient(
+    ellipse at center,
+    black 48%,
+    rgba(0, 0, 0, 0.85) 65%,
+    transparent 85%
+  );
+}
+
+.project-card-icon .project-image {
+  animation: helmet-hover 6s ease-in-out infinite;
+}
+
+/* Detail view */
+
+.project-detail {
+  position: relative;
+
+  grid-template-columns: minmax(280px, 1fr) minmax(320px, 1fr);
+  gap: 24px;
+
+  border: 0;
+  background: transparent;
+}
+
+.project-art {
+  position: relative;
+  isolation: isolate;
+
+  min-height: 480px;
+  padding: 26px 20px 50px;
+
+  border: 0;
+  background: transparent;
+}
+
+.project-art::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+
+  left: 12%;
+  right: 12%;
+  bottom: 48px;
+  height: 95px;
+
+  border: 2px solid #a3edff;
+  border-radius: 50%;
+
+  box-shadow:
+    0 0 15px #58cfff,
+    0 0 45px rgba(38, 157, 255, 0.45),
+    inset 0 0 26px rgba(71, 187, 255, 0.3);
+}
+
+.project-emblem,
+.project-emblem.has-image {
+  width: 100%;
+  max-width: 430px;
+  height: 350px;
+  aspect-ratio: auto;
+
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.project-art > span {
+  position: relative;
+  z-index: 2;
+  color: #87b8d2;
+  font-size: 10px;
+  letter-spacing: 1px;
+}
+
+.project-summary,
+.project-tasks {
+  border: 1px solid rgba(89, 192, 246, 0.28);
+
+  background: linear-gradient(
+    135deg,
+    rgba(10, 34, 60, 0.88),
+    rgba(4, 15, 34, 0.78)
+  );
+
+  box-shadow: inset 0 0 35px rgba(29, 132, 202, 0.05);
+}
+
+.project-summary {
+  align-self: center;
+  border-left: 2px solid #65d7ff;
+}
+
+.project-summary h2 {
+  color: #ddf8ff;
+  letter-spacing: 3px;
+}
+
+.project-facts {
+  border-color: rgba(89, 192, 246, 0.22);
+}
+
+.project-facts dt {
+  color: #76a8c5;
+}
+
+.project-facts dd {
+  color: #d2e9f4;
+}
+
+.project-tasks {
+  grid-column: 1 / -1;
+}
+
+.project-tasks li {
+  border-color: rgba(89, 192, 246, 0.18);
+}
+
+.task-status {
+  background: rgba(22, 65, 100, 0.35);
+}
+
+.project-detail-footer {
+  border-color: rgba(89, 192, 246, 0.22);
+  background: rgba(3, 15, 30, 0.5);
+}
+
+@keyframes helmet-hover {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@media (max-width: 760px) {
+  .projects-workspace {
+    padding: 24px 16px 40px;
+  }
+
+  .project-catalog {
+    min-height: 400px;
+    gap: 24px;
+  }
+
+  .project-card {
+    min-height: 410px;
+    padding-inline: 16px;
+  }
+
+  .project-card-icon,
+  .project-card-icon.has-image {
+    height: 240px;
+  }
+
+  .project-detail {
+    grid-template-columns: 1fr;
+  }
+
+  .project-art {
+    min-height: 380px;
+  }
+
+  .project-emblem,
+  .project-emblem.has-image {
+    height: 280px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .project-card-icon .project-image {
+    animation: none;
+  }
+
+  .project-card {
+    transition: none;
+  }
+}
+.project-card-icon .project-image-native,
+.project-emblem .project-image-native {
+  filter: drop-shadow(0 0 16px rgba(76, 195, 255, 0.3));
+  mix-blend-mode: normal;
+  mask-image: none;
+}
+.project-card-icon .project-image-native,
+.project-emblem .project-image-native {
+  filter: drop-shadow(0 0 16px rgba(76, 195, 255, 0.3));
+  mix-blend-mode: normal;
+  mask-image: none;
+}
+.project-carousel {
+  /* Расстояние между проектами — меняй это значение. */
+  --project-gap: 120px;
+
+  /* Карточка должна помещаться даже на узком экране. */
+  --project-width: min(360px, 76vw);
+}
+
+.project-carousel-controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 24px;
+  margin: 12px 0 20px;
+}
+
+.carousel-arrow {
+  display: grid;
+  place-items: center;
+  width: 48px;
+  height: 48px;
+
+  color: #b9efff;
+  background: rgba(10, 32, 48, 0.75);
+  border: 1px solid rgba(108, 219, 255, 0.35);
+  border-radius: 50%;
+
+  font-size: 24px;
+  cursor: pointer;
+  transition: background 180ms, box-shadow 180ms;
+}
+
+.carousel-arrow:hover:not(:disabled) {
+  background: rgba(27, 75, 99, 0.8);
+  box-shadow: 0 0 22px rgba(72, 201, 255, 0.22);
+}
+
+.carousel-arrow:focus-visible {
+  outline: 2px solid #a2eaff;
+  outline-offset: 5px;
+}
+
+.carousel-arrow:disabled {
+  opacity: 0.3;
+  cursor: default;
+}
+
+.project-position {
+  min-width: 80px;
+  text-align: center;
+  color: #9dd5e8;
+  font-family: monospace;
+  letter-spacing: 0.15em;
+}
+
+#project-catalog {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: flex-end;
+  gap: var(--project-gap);
+
+  width: 100%;
+  box-sizing: border-box;
+  overflow-x: auto;
+
+  /* Отступы позволяют центрировать первую и последнюю карточки. */
+  padding: 24px
+    max(0px, calc((100% - var(--project-width)) / 2))
+    48px;
+
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+}
+
+#project-catalog::-webkit-scrollbar {
+  display: none;
+}
+
+#project-catalog .project-card {
+  flex: 0 0 var(--project-width);
+  width: var(--project-width);
+  min-width: 0;
+
+  scroll-snap-align: center;
+
+  opacity: 0.45;
+  transition: opacity 250ms, transform 250ms;
+}
+
+#project-catalog .project-card.is-centered {
+  opacity: 1;
+}
+
+/* При навигации клавиатурой карточка тоже должна хорошо читаться. */
+#project-catalog .project-card:focus-visible {
+  opacity: 1;
+}
+
+@media (max-width: 760px) {
+  .project-carousel {
+    --project-gap: 48px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #project-catalog .project-card,
+  .carousel-arrow {
+    transition: none;
+  }
+}
