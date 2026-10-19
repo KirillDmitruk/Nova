@@ -1,6 +1,8 @@
 <!doctype html>
 <html lang="ru">
 <head>
+  <link rel="stylesheet" href="/static/projects.css" />
+  <script defer src="/static/projects.js"></script>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#030c13" />
@@ -36,7 +38,28 @@
     <div class="top-center"><span class="light"></span> SYSTEM ONLINE <span class="tiny-divider">/</span> <span id="clock">--:--:--</span></div>
     <button class="header-button" id="reset-button" type="button" title="Начать новый чат">↺ <span>NEW SESSION</span></button>
   </header>
-  <main class="workspace">
+  <nav class="workspace-nav" aria-label="Разделы NOVA">
+  <button
+    id="assistant-view-button"
+    class="view-button"
+    type="button"
+    aria-controls="assistant-view"
+    aria-pressed="true"
+  >
+    01 / Ассистент
+  </button>
+
+  <button
+    id="projects-view-button"
+    class="view-button"
+    type="button"
+    aria-controls="projects-view"
+    aria-pressed="false"
+  >
+    02 / Проекты
+  </button>
+</nav>
+  <main class="workspace" id="assistant-view">
     <aside class="rail rail-left" aria-label="Данные системы">
       <div class="rail-heading"><span class="bar"></span> SYSTEM DIAGNOSTICS</div>
       <section class="metric"><div class="metric-title">CORE STATUS <span>01 / 04</span></div><div class="metric-main" id="core-label">STANDBY</div><div class="metric-sub">VIRTUAL ASSISTANT READY</div><div class="mini-bars" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div></section>
@@ -61,6 +84,96 @@
       <div class="input-area"><div class="input-label"><span>MESSAGE TRANSMISSION</span><span id="chars-left">0 / 10000</span></div><form id="chat-form"><textarea id="message-input" rows="1" maxlength="10000" placeholder="Введите запрос для NOVA..." aria-label="Сообщение для NOVA" required></textarea><button id="send-button" type="submit" aria-label="Отправить сообщение"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m5 12 14-7-4 14-3-7-7-0z"/><path d="m12 12 7-7"/></svg></button></form><div class="input-footer"><span>ENTER TO SEND <span class="bullet">·</span> SHIFT+ENTER FOR NEW LINE</span><span id="request-status">READY</span></div></div>
     </aside>
   </main>
+  <main
+  id="projects-view"
+  class="projects-workspace"
+  aria-labelledby="projects-title"
+  hidden
+>
+  <header class="projects-intro">
+    <div>
+      <p class="project-kicker">NOVA / PROJECT ARCHIVE</p>
+      <h1 id="projects-title">Мастерская проектов</h1>
+      <p>От идеи к работающему устройству.</p>
+    </div>
+
+    <span class="source-badge">
+      Локальный каталог · только чтение
+    </span>
+  </header>
+
+  <p id="projects-feedback" role="status"></p>
+
+  <button
+    id="projects-retry"
+    class="header-button"
+    type="button"
+    hidden
+  >
+    Повторить загрузку
+  </button>
+
+  <div id="project-catalog" class="project-catalog"></div>
+
+  <article
+    id="project-detail"
+    class="project-detail"
+    aria-labelledby="project-name"
+    hidden
+  >
+    <div class="project-art" aria-hidden="true">
+      <span class="project-kicker">PROJECT VISUAL</span>
+      <div id="project-icon" class="project-emblem"></div>
+      <span>Иконка проекта · не 3D-модель</span>
+    </div>
+
+    <div class="project-summary">
+      <p class="project-kicker">PROJECT DOSSIER</p>
+
+      <h2 id="project-name" tabindex="-1"></h2>
+      <p id="project-description"></p>
+
+      <dl class="project-facts">
+        <dt>Этап разработки</dt>
+        <dd id="project-stage"></dd>
+
+        <dt>Состояние устройства</dt>
+        <dd id="project-device"></dd>
+
+        <dt>Ближайшая цель</dt>
+        <dd id="project-goal"></dd>
+
+        <dt>Последняя запись</dt>
+        <dd id="project-update"></dd>
+      </dl>
+    </div>
+
+    <section class="project-tasks">
+      <div class="task-heading">
+        <h3>Задачи</h3>
+        <span id="project-task-count"></span>
+      </div>
+
+      <p class="project-note">
+        Предлагаемый план. Данные обновляются вручную в projects.json.
+      </p>
+
+      <ul id="project-task-list"></ul>
+    </section>
+
+    <footer class="project-detail-footer">
+      <button
+        id="project-back"
+        class="header-button"
+        type="button"
+      >
+        ← К каталогу
+      </button>
+
+      <span>Интеграция ROS 2 — следующий этап</span>
+    </footer>
+  </article>
+</main>
   <footer class="footer"><span>NOVA // RESEARCH & DEVELOPMENT</span><span>INTERFACE V2.0 <span class="footer-divider">//</span> LOCAL ENVIRONMENT</span><span>POWERED BY NOVA</span></footer>
 </div>
 </body>
